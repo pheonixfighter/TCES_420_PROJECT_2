@@ -18,6 +18,8 @@ typedef struct{
 
 /**
 *   Creates an empty matrix
+*
+*
 *   @param theRows The number of rows this matrix will have
 *   @param theColumns The number of columns this matrix will have
 *   @returns a new matrix object 
@@ -42,7 +44,7 @@ void transpose(Matrix*);
 *   @param a The first matrix in the multiplication
 *   @param b The second matrix in the multiplication
 */
-void multiply(Matrix, Matrix);
+Matrix multiply(Matrix, Matrix);
 
 /**
 *   Multiplies the matrix with multiple threads.
@@ -50,7 +52,7 @@ void multiply(Matrix, Matrix);
 *   @param b The second matrix in the multiplication.
 *   @param threads The number of threads that 
 */
-void multiplyThreaded(Matrix, Matrix, int);
+Matrix multiplyThreaded(Matrix, Matrix, int);
 
 /**
 *   Prints the values of a matrix

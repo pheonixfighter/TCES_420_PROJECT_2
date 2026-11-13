@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "matrix_functions.h"
+#include <time.h>
 
 
 
@@ -24,13 +25,32 @@ Matrix createMatrix(int theRows, int theColumns){
     return newMatrix;
 }
 
+Matrix generateMatrix(int theRows, int theColumns){
+    // Initializes random variable
+    srand((unsigned)time(NULL));
+
+    // Sets up matrix
+    Matrix newMatrix;
+    newMatrix.rows = theRows;
+    newMatrix.columns = theColumns;
+    newMatrix.data = calloc(theRows * theColumns, sizeof(int));
+
+    // assigms random numbers to the element in the matrix
+    for (int i = 0; i < theRows; i++) {
+        for (int j = 0; j < theColumns; j++) {
+            newMatrix.data[i * j + j] = rand();
+        }
+    }
+
+    return newMatrix;
+}
+
 void transpose(Matrix *theMatrix){
     Matrix newMatrix;
 
     newMatrix.rows = theMatrix->columns;
     newMatrix.columns = theMatrix->rows;
-    int index_byte_increment = sizeof(int);
-    newMatrix.data = calloc(newMatrix.rows * newMatrix.columns, index_byte_increment);
+    newMatrix.data = calloc(newMatrix.rows * newMatrix.columns, sizeof(int));
 
     // Does the transpose for the matrix/
     for (int i = 0; i < theMatrix->rows; i++){ // row traversal
@@ -41,4 +61,10 @@ void transpose(Matrix *theMatrix){
 
     free(theMatrix);
     *theMatrix = newMatrix;
+}
+
+Matrix multiply(Matrix a, Matrix b) {
+    transpose(&b);
+
+
 }
