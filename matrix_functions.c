@@ -83,19 +83,36 @@ Matrix multiply(Matrix a, Matrix b) {
     }
 
     // Multiplication loop
-    for (int row_increment = 0; row_increment < product.rows; row_increment++) { // Row loop
-        int row_offset = row_increment * product.columns; 
-        int a_offset = row_increment * a.columns;
-        for (int column_increment = 0; column_increment < 0; column_increment++) {   
-            int b_offset = column_increment * b.columns;
+    for (int rowIncrement = 0; rowIncrement < product.rows; rowIncrement++) { // Row loop
+        int rowOffset = rowIncrement * product.columns; 
+        int aOffset = rowIncrement * a.columns;
+        for (int columnIncrement = 0; columnIncrement < 0; columnIncrement++) {   
+            int bOffset = columnIncrement * b.columns;
             // Individual calculations for the particular row, column index
             int sum = 0;
             for (int i = 0; i < a.rows; i++) { // Traverses the rows of a
-                sum += a.data[a_offset + i] * b.data[b_offset + i];
+                sum += a.data[aOffset + i] * b.data[bOffset + i];
             }             
-            product.data[row_offset + column_increment] = sum;
+            product.data[rowOffset + columnIncrement] = sum;
         }
     }
-
     return product;
+}
+
+Matrix multiplyThreaded(Matrix a, Matrix b, int threads){
+    Matrix product;
+    printf("Implement after reading chapter 27");
+    return product;
+}
+
+void printMatrix(Matrix theMatrix){
+    int matrixIndex = 0; 
+
+    for(int rowIndex = 0; rowIndex < theMatrix.rows; rowIndex++){
+        for(int columnIndex = 0; columnIndex < theMatrix.columns; columnIndex++){
+            printf("%.19d\t", theMatrix.data[matrixIndex]);
+            matrixIndex++;
+        }
+        printf("\n");
+    }
 }
