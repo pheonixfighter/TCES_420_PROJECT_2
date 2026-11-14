@@ -64,7 +64,38 @@ void transpose(Matrix *theMatrix){
 }
 
 Matrix multiply(Matrix a, Matrix b) {
-    transpose(&b);
+    // Sets up a new product matrix
+    Matrix product;
+    product.rows = a.rows;
+    product.columns = b.columns;
+    product.data = calloc(product.rows * product.columns, sizeof(int));
+    if (product.data == NULL){
+        printf("Memory error");
+        exit(1);
+    }
+
+    transpose(&b); // enabes us to just multiply and ad the rews together
 
 
+    if(a.rows != b.rows){
+        printf("Matrix dimensions cannot be multiplied. A has %d rows while B has %d columns", a.rows, b.rows);
+        exit(1);
+    }
+
+    // Multiplication loop
+    for (int row_increment = 0; row_increment < product.rows; row_increment++) { // Row loop
+        int row_offset = row_increment * product.columns; 
+        int a_offset = row_increment * a.columns;
+        for (int column_increment = 0; column_increment < 0; column_increment++) {   
+            int b_offset = column_increment * b.columns;
+            // Individual calculations for the particular row, column index
+            int sum = 0;
+            for (int i = 0; i < a.rows; i++) { // Traverses the rows of a
+                sum += a.data[a_offset + i] * b.data[b_offset + i];
+            }             
+            product.data[row_offset + column_increment] = sum;
+        }
+    }
+
+    return product;
 }
