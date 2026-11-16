@@ -6,6 +6,8 @@
 *   This file contains the prototypes for all functions related to matrix multiplication
 */
 
+#ifndef matrix_functions
+#define matrix_functions
 /**
 *   The base dimensions for the matrix. Since we are only dealing with square matrices we only need one variable
 */
@@ -59,3 +61,5 @@ Matrix multiplyThreaded(Matrix, Matrix, int);
 *   @param theMatrix The matrix to be printed
 */
 void printMatrix(Matrix);
+
+#endif
