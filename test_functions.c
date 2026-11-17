@@ -29,8 +29,32 @@ void test_printMatrix(){
 }
 
 void test_single_threaded_multiplication(){
+
+    printf("Single threaded multplication test: \n\n\n");
     // Creates matrices 
     Matrix a, b; 
     a = generateMatrix(SQUARE_MATRIX_TEST_SIZE, SQUARE_MATRIX_TEST_SIZE);
 
+    printf("A:\n\n");
+    printMatrix(a);
+
+    // Makes B the identity matrix with the same dimesnions as a
+    b = a;
+    for(int i = 0; i < SQUARE_MATRIX_TEST_SIZE; i++){
+        for(int j = 0; j < SQUARE_MATRIX_TEST_SIZE; j++){
+            b.data[i * SQUARE_MATRIX_TEST_SIZE + j] = (i == j);
+        }
+    }
+    printf("B:\n\n");
+    printMatrix(b);
+
+    Matrix product = multiply(a, b);
+
+    printf("The resulting product:\n\n");
+    printMatrix(product);
+
+    if(*(product.data) == *(a.data)){
+        printf("Single-threaded multiplication test passed");
+    } else printf("Single-threaded multplication test failed");
 }
+

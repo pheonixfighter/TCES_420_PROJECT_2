@@ -12,6 +12,7 @@
 #define test_functions
 
 #define SQUARE_MATRIX_TEST_SIZE 3 // testing 3X3 matrices for tests
+#define SQUARE_MATRIX_TEST_ELEMENT_NUMBER (SQUARE_MATRIX_TEST_SIZE * SQUARE_MATRIX_TEST_SIZE)
 
 void test_printMatrix(void);
 void test_single_threaded_multiplication(void);
