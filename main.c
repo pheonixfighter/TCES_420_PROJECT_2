@@ -8,10 +8,17 @@
 */
 
 #include "matrix_functions.h"
+#include "test_functions.h"
 #include <stdio.h>
 
-int main(void){
-    printf("To be implemented");
 
+int main(void){
+    #ifdef TEST_MODE
+        test_printMatrix();
+        test_single_threaded_multiplication();
+        test_multi_threaded_multiplication();
+    #endif
+
+    
     return 0;
 }

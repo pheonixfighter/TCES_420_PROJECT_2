@@ -11,7 +11,7 @@
 /**
 *   The base dimensions for the matrix. Since we are only dealing with square matrices we only need one variable
 */
-#define BASE_MATRIX_DIMENSION 2
+#define BASE_MATRIX_DIMENSION 2000
 
 typedef struct{
     int rows, columns;

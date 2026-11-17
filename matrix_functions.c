@@ -136,6 +136,7 @@ void *rowMultiply(void *arguments){
 Matrix multiplyThreaded(Matrix a, Matrix b, int threadCount){
     Matrix product;
 
+    transpose(&b);
 
     pthread_t threads[threadCount];
     int row_range = a.rows / threadCount;

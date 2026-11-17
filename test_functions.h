@@ -16,5 +16,6 @@
 
 void test_printMatrix(void);
 void test_single_threaded_multiplication(void);
+void test_multi_threaded_multiplication(void);
 
 #endif
