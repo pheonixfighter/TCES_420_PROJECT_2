@@ -10,15 +10,56 @@
 #include "matrix_functions.h"
 #include "test_functions.h"
 #include <stdio.h>
+#include <time.h>
 
+#define MATRIX_SIZE 2000
+#define NUM_THREAD_TESTS 5
 
 int main(void){
     #ifdef TEST_MODE
-        test_printMatrix();
-        test_single_threaded_multiplication();
-        test_multi_threaded_multiplication();
+
+    // Runs test functions
+    test_printMatrix();
+    test_single_threaded_multiplication();
+    test_multi_threaded_multiplication();
+
+    #else
+
+    // regular timing operations
+
+    // initializes matrices for multiplication
+    Matrix A, B;
+
+    A = generateMatrix(MATRIX_SIZE, MATRIX_SIZE);
+    B = generateMatrix(MATRIX_SIZE, MATRIX_SIZE);
+    clock_t initial_time, final_time;
+
+    printf("Timing the zero thread case: \n");
+
+    initial_time = clock();
+
+    multiply(A, B);
+
+    final_time = clock();
+
+    printf("Time Elapsed: %ld seconds", final_time - initial_time);
+    
+
+    int threads[] = {1, 2, 4, 8, 16};
+
+    printf("Threads \t Start time \t End time \t Elapsed time\n");
+    
+    for (int i = 0; i < NUM_THREAD_TESTS; i++){
+        initial_time = clock();
+
+        multiplyThreaded(A, B, threads[i]);
+
+        final_time = clock();
+
+        printf("%d \t %ld \t %ld \t %ld \t", threads[i], initial_time, final_time, final_time - initial_time);
+    }
     #endif
 
-    
+
     return 0;
 }
