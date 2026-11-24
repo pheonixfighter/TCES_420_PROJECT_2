@@ -28,7 +28,7 @@ void test_printMatrix(){
    printMatrix(a);
 }
 
-void test_single_threaded_multiplication(){
+void test_zero_threaded_multiplication(){
 
     printf("Single threaded multplication test: \n\n\n");
     // Creates matrices 

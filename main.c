@@ -1,9 +1,7 @@
 /**
     @author Robert Cromer
     @file main.c
-
-    @brief 
-    This file contains the operational code for this project. It runs tests to ensure correctness and 
+    @brief This file contains the operational code for this project. It runs tests to ensure correctness and 
     times the matrix multiplication functions if the testing variable is defined during compile time
 */
 
@@ -16,15 +14,6 @@
 #define NUM_THREAD_TESTS 5
 
 int main(void){
-    #ifdef TEST_MODE
-
-    // Runs test functions
-    test_printMatrix();
-    test_single_threaded_multiplication();
-    test_multi_threaded_multiplication();
-
-    #else
-
     // regular timing operations
 
     // initializes matrices for multiplication
@@ -43,7 +32,6 @@ int main(void){
     final_time = clock();
 
     printf("Time Elapsed: %ld seconds", final_time - initial_time);
-    
 
     int threads[] = {1, 2, 4, 8, 16};
 
@@ -58,8 +46,6 @@ int main(void){
 
         printf("%d \t %ld \t %ld \t %ld \t", threads[i], initial_time, final_time, final_time - initial_time);
     }
-    #endif
-
 
     return 0;
 }
