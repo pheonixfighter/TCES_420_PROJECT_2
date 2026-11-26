@@ -1,12 +1,11 @@
 /**
     @author Robert Cromer
     @file main.c
-    @brief This file contains the operational code for this project. It runs tests to ensure correctness and 
-    times the matrix multiplication functions if the testing variable is defined during compile time
+    @brief This file contains the operational code for this project. It 
+    times the matrix multiplication functions to see how long each version of threading works. 
 */
 
 #include "matrix_functions.h"
-#include "test_functions.h"
 #include <stdio.h>
 #include <time.h>
 

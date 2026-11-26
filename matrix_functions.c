@@ -60,7 +60,7 @@ void transpose(Matrix *theMatrix){
         }
     }
 
-    free(theMatrix);
+    free(theMatrix->data);
     *theMatrix = newMatrix;
 }
 
@@ -87,7 +87,7 @@ Matrix multiply(Matrix a, Matrix b) {
     for (int rowIncrement = 0; rowIncrement < product.rows; rowIncrement++) { // Row loop
         int rowOffset = rowIncrement * product.columns; 
         int aOffset = rowIncrement * a.columns;
-        for (int columnIncrement = 0; columnIncrement < 0; columnIncrement++) {   
+        for (int columnIncrement = 0; columnIncrement < product.columns; columnIncrement++) {   
             int bOffset = columnIncrement * b.columns;
             // Individual calculations for the particular row, column index
             int sum = 0;
