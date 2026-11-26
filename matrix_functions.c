@@ -124,45 +124,48 @@ void *rowMultiply(void *arguments){
     for (int current_row_index = args->lower_row_index; current_row_index <= args->upper_row_index; current_row_index++){ 
         int row_offset = current_row_index * args->a->columns; // for memory offset in a
 
-        for (int i = 0; i < args->product->columns; i++){
+        for (int current_column_index = 0; current_column_index < args->product->columns; current_column_index++){
             int sum = 0;
-            int column_offset = i * args->b->columns;
-            for(int j = 0; j < args->a->rows; j++){
-                sum += args->a->data[row_offset + i] * args->b->data[column_offset * i];
+            // Recall that B is transposed, so the B column offset is just a row offset
+            int column_offset = current_column_index * args->b->columns; // the memory offset for b
+            for(int i = 0; i < args->a->columns; i++){
+                sum += args->a->data[row_offset + i] * args->b->data[column_offset + i];
             }
-            args->product->data[current_row_index * args->product->columns + i] = sum;
+            args->product->data[current_row_index * args->product->columns + current_column_index] = sum;
         }
     }
     return NULL;
 }
 
-Matrix multiplyThreaded(Matrix a, Matrix b, int threadCount){
+Matrix multiplyThreaded(Matrix *a, Matrix *b, int threadCount){
     Matrix product;
+    product.rows = a->rows;
+    product.columns = a->columns;
+    product.data = calloc(product.rows * product.columns, sizeof(int));
 
-    transpose(&b);
+    transpose(b);
 
     pthread_t threads[threadCount];
-    int row_range = a.rows / threadCount;
-    int max_lower_row_bound = a.rows - row_range - a.rows % threadCount;
-    for (int i = 0; i < threadCount; i+= row_range){
-        Matrix_Row_Multiplier_t * rowMult_args;
-        rowMult_args->a = &a;
-        rowMult_args->b = &b;
-        rowMult_args->product = &product;
-        rowMult_args->lower_row_index = i * row_range;
-        rowMult_args->upper_row_index = (i + 1) * row_range - 1;
-        pthread_create(&threads[i], NULL, &rowMultiply, &rowMult_args);
+    Matrix_Row_Multiplier_t rowMult_args[threadCount];
+    int row_range = a->rows / threadCount;
+    int max_lower_row_bound = a->rows - row_range - a->rows % threadCount;
+    for (int i = 0; i < threadCount - 1; i++){
+        rowMult_args[i].a = a;
+        rowMult_args[i].b = b;
+        rowMult_args[i].product = &product;
+        rowMult_args[i].lower_row_index = i * row_range;
+        rowMult_args[i].upper_row_index = (i + 1) * row_range - 1;
+        pthread_create(&threads[i], NULL, &rowMultiply, &rowMult_args[i]);
     }
 
     // Adds an extra thread for the purpose of including the modulo threads
-    Matrix_Row_Multiplier_t * rowMult_args;
-    rowMult_args->a = &a;
-    rowMult_args->b = &b;
-    rowMult_args->product = &product;
-    rowMult_args->lower_row_index =  max_lower_row_bound;
-    rowMult_args->upper_row_index = a.rows - 1;
+    rowMult_args[threadCount - 1].a = a;
+    rowMult_args[threadCount - 1].b = b;
+    rowMult_args[threadCount - 1].product = &product;
+    rowMult_args[threadCount - 1].lower_row_index =  max_lower_row_bound;
+    rowMult_args[threadCount - 1].upper_row_index = a->rows - 1;
     
-    pthread_create(&threads[threadCount - 1], NULL, &rowMultiply, &rowMult_args);
+    pthread_create(&threads[threadCount - 1], NULL, rowMultiply, &rowMult_args[threadCount - 1]);
 
     // waits for all of hte threads to finish
     for(int i = 0; i < threadCount; i++){

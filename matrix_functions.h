@@ -54,7 +54,7 @@ Matrix multiply(Matrix*, Matrix*);
 *   @param b The second matrix in the multiplication.
 *   @param threads The number of threads that 
 */
-Matrix multiplyThreaded(Matrix, Matrix, int);
+Matrix multiplyThreaded(Matrix*, Matrix*, int);
 
 /**
 *   Prints the values of a matrix

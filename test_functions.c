@@ -100,14 +100,14 @@ void test_multi_threaded_multiplication(){
     printf("B:\n\n");
     printMatrix(b);
 
-    Matrix product = multiplyThreaded(a, b, 2);
+    Matrix product = multiplyThreaded(&a, &b, 2);
 
     printf("The resulting product:\n\n");
     printMatrix(product);
 
     if(*(product.data) == *(a.data)){
-        printf("Multi-threaded multiplication test passed");
-    } else printf("Multi-threaded multplication test failed");
+        printf("Multi-threaded multiplication test passed\n");
+    } else printf("Multi-threaded multplication test failed\n");
 
     free(a.data);
     free(b.data);

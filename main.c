@@ -39,7 +39,7 @@ int main(void){
     for (int i = 0; i < NUM_THREAD_TESTS; i++){
         initial_time = clock();
 
-        multiplyThreaded(A, B, threads[i]);
+        multiplyThreaded(&A, &B, threads[i]);
 
         final_time = clock();
 
