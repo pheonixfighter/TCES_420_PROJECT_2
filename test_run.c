@@ -11,6 +11,7 @@
 int main(){
 
     test_printMatrix();
+    test_transpose();
     test_zero_threaded_multiplication();
     test_multi_threaded_multiplication();
 

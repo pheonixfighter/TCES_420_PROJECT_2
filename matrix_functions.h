@@ -46,7 +46,7 @@ void transpose(Matrix*);
 *   @param a The first matrix in the multiplication
 *   @param b The second matrix in the multiplication
 */
-Matrix multiply(Matrix, Matrix);
+Matrix multiply(Matrix*, Matrix*);
 
 /**
 *   Multiplies the matrix with multiple threads.

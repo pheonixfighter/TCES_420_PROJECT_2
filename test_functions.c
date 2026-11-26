@@ -23,7 +23,7 @@ void test_printMatrix(){
     a.columns = SQUARE_MATRIX_TEST_SIZE;
     a.data = calloc(SQUARE_MATRIX_TEST_SIZE * SQUARE_MATRIX_TEST_SIZE, sizeof(int)); 
 
-    for (int i = 1; i < SQUARE_MATRIX_TEST_SIZE * SQUARE_MATRIX_TEST_SIZE; i++){
+    for (int i = 1; i <= SQUARE_MATRIX_TEST_SIZE * SQUARE_MATRIX_TEST_SIZE; i++){
             a.data[i - 1] = i;
     }
 
@@ -65,14 +65,15 @@ void test_zero_threaded_multiplication(){
     printf("B:\n\n");
     printMatrix(b);
 
-    Matrix product = multiply(a, b);
+    Matrix product = multiply(&a, &b);
 
     printf("The resulting product:\n\n");
     printMatrix(product);
 
     if(*(product.data) == *(a.data)){
-        printf("Single-threaded multiplication test passed");
-    } else printf("Single-threaded multplication test failed");
+        printf("Single-threaded multiplication test passed\n");
+    } else printf("Single-threaded multplication test failed\n");
+    
 
     free(a.data);
     free(b.data);
@@ -90,6 +91,7 @@ void test_multi_threaded_multiplication(){
 
     // Makes B the identity matrix with the same dimesnions as a
     b = a;
+    b.data = calloc(b.rows * b.columns, sizeof(int));
     for(int i = 0; i < SQUARE_MATRIX_TEST_SIZE; i++){
         for(int j = 0; j < SQUARE_MATRIX_TEST_SIZE; j++){
             b.data[i * SQUARE_MATRIX_TEST_SIZE + j] = (i == j);

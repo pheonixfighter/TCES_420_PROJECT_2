@@ -39,7 +39,7 @@ Matrix generateMatrix(int theRows, int theColumns){
     // assigms random numbers to the element in the matrix
     for (int i = 0; i < theRows; i++) {
         for (int j = 0; j < theColumns; j++) {
-            newMatrix.data[i * j + j] = rand();
+            newMatrix.data[i * newMatrix.rows + j] = rand();
         }
     }
 
@@ -54,45 +54,48 @@ void transpose(Matrix *theMatrix){
     newMatrix.data = calloc(newMatrix.rows * newMatrix.columns, sizeof(int));
 
     // Does the transpose for the matrix/
-    for (int i = 0; i < theMatrix->rows; i++){ // row traversal
-        for(int j = 0; j < theMatrix->columns; j++){
-           newMatrix.data[i * j + j] = theMatrix->data[i * j + i];
+    for (int i = 0; i < newMatrix.rows; i++){ // row traversal
+        for(int j = 0; j < newMatrix.columns; j++){
+           newMatrix.data[i * newMatrix.columns + j] = theMatrix->data[j * theMatrix->columns + i];
         }
     }
-
+    
     free(theMatrix->data);
-    *theMatrix = newMatrix;
+    theMatrix->data = newMatrix.data;
+    theMatrix->rows = newMatrix.rows;
+    theMatrix->columns = newMatrix.columns;
+    
 }
 
-Matrix multiply(Matrix a, Matrix b) {
+Matrix multiply(Matrix *a, Matrix *b) {
     // Sets up a new product matrix
     Matrix product;
-    product.rows = a.rows;
-    product.columns = b.columns;
+    product.rows = a->rows;
+    product.columns = b->columns;
     product.data = calloc(product.rows * product.columns, sizeof(int));
     if (product.data == NULL){
         printf("Memory error");
         exit(1);
     }
 
-    transpose(&b); // enabes us to just multiply and ad the rews together
+    transpose(b); // enabes us to just multiply and ad the rews together
 
 
-    if(a.rows != b.rows){
-        printf("Matrix dimensions cannot be multiplied. A has %d rows while B has %d columns", a.rows, b.rows);
+    if(a->rows != b->rows){
+        printf("Matrix dimensions cannot be multiplied. A has %d rows while B has %d columns", a->rows, b->rows);
         exit(1);
     }
 
     // Multiplication loop
     for (int rowIncrement = 0; rowIncrement < product.rows; rowIncrement++) { // Row loop
         int rowOffset = rowIncrement * product.columns; 
-        int aOffset = rowIncrement * a.columns;
+        int aOffset = rowIncrement * a->columns;
         for (int columnIncrement = 0; columnIncrement < product.columns; columnIncrement++) {   
-            int bOffset = columnIncrement * b.columns;
+            int bOffset = columnIncrement * b->columns;
             // Individual calculations for the particular row, column index
             int sum = 0;
-            for (int i = 0; i < a.rows; i++) { // Traverses the rows of a
-                sum += a.data[aOffset + i] * b.data[bOffset + i];
+            for (int i = 0; i < a->rows; i++) { // Traverses the rows of a
+                sum += a->data[aOffset + i] * b->data[bOffset + i];
             }             
             product.data[rowOffset + columnIncrement] = sum;
         }

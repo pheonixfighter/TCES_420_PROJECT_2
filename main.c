@@ -26,7 +26,7 @@ int main(void){
 
     initial_time = clock();
 
-    multiply(A, B);
+    multiply(&A, &B);
 
     final_time = clock();
 
