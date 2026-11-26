@@ -1,7 +1,7 @@
 all: TIMING_PROGRAM test_run
 
 TIMING_PROGRAM: main.o matrix_functions.o
-	gcc main.o matrix_functions.o -o TIMING_PROGRAM
+	gcc main.o matrix_functions.o -o TIMING_PROGRAM -lm -pthread
 
 test_run: test_run.o matrix_functions.o test_functions.o
 	gcc test_run.o test_functions.o matrix_functions.o  -o test_run
