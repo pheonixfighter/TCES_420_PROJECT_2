@@ -140,10 +140,22 @@ void *rowMultiply(void *arguments){
 Matrix multiplyThreaded(Matrix *a, Matrix *b, int threadCount){
     Matrix product;
     product.rows = a->rows;
-    product.columns = a->columns;
+    product.columns = b->columns;
     product.data = calloc(product.rows * product.columns, sizeof(int));
 
     transpose(b);
+
+    // verifying that matrix multiplication is mathematically possible
+    if(a->rows != b->rows){
+        printf("Matrix dimensions cannot be multiplied. A has %d rows while B has %d columns\n", a->rows, b->rows);
+        exit(1);
+    }
+
+    // Verifying that thread count is actually possible by checking if we can assign at lease one row in the product to 
+    if (threadCount > a->rows){
+        printf("Invalid thread count. You must use at most %d threads\n", a->rows);
+        return product; // Fix that works with this code, but will need to be changed to work with other code in the future
+    }
 
     pthread_t threads[threadCount];
     Matrix_Row_Multiplier_t rowMult_args[threadCount];

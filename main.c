@@ -18,7 +18,7 @@ void custom_thread_timing(void);
 
 int main(void){
     // regular timing operations
-
+    printf("THE INITIAL MULTIPLICATION TIMINGS: \n");
     // initializes matrices for multiplication
     Matrix A, B;
 
@@ -52,12 +52,13 @@ int main(void){
     }
 
     printf("\n\n");
+    
     custom_thread_timing();
     return 0;
 }
 
 void custom_thread_timing(void){
-    printf("CUSTOM THREAD TIMING PROGRAM");
+    printf("CUSTOM THREAD TIMING PROGRAM\n");
     printf("Enter a custom number of threads, and we will multiply two 2000 X 2000 matrices and time the result. \n");
 
     int threads;
